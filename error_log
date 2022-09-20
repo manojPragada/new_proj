@@ -1,0 +1,13 @@
+[03-Mar-2017 02:13:30 America/Chicago] PHP Fatal error:  Cannot redeclare Products::index() in /home/demowork/public_html/php/coolzone_app/application/controllers/Products.php on line 9
+[07-Apr-2017 04:44:38 America/Chicago] PHP Fatal error:  Call to undefined function mysqli_init() in /home/demowork/public_html/php/hrhomes/backend/system/database/drivers/mysqli/mysqli_driver.php on line 136
+[07-Apr-2017 04:44:38 America/Chicago] PHP Fatal error:  Call to undefined function mysqli_init() in /home/demowork/public_html/php/hrhomes/backend/system/database/drivers/mysqli/mysqli_driver.php on line 136
+[07-Apr-2017 04:44:38 America/Chicago] PHP Fatal error:  Call to undefined function mysqli_init() in /home/demowork/public_html/php/hrhomes/backend/system/database/drivers/mysqli/mysqli_driver.php on line 136
+[07-Apr-2017 04:44:38 America/Chicago] PHP Fatal error:  Call to undefined function mysqli_init() in /home/demowork/public_html/php/hrhomes/backend/system/database/drivers/mysqli/mysqli_driver.php on line 136
+[07-Apr-2017 04:44:41 America/Chicago] PHP Fatal error:  Call to undefined function mysqli_init() in /home/demowork/public_html/php/hrhomes/backend/system/database/drivers/mysqli/mysqli_driver.php on line 136
+[07-Apr-2017 04:44:41 America/Chicago] PHP Fatal error:  Call to undefined function mysqli_init() in /home/demowork/public_html/php/hrhomes/backend/system/database/drivers/mysqli/mysqli_driver.php on line 136
+[07-Apr-2017 04:44:41 America/Chicago] PHP Fatal error:  Call to undefined function mysqli_init() in /home/demowork/public_html/php/hrhomes/backend/system/database/drivers/mysqli/mysqli_driver.php on line 136
+[07-Apr-2017 04:44:42 America/Chicago] PHP Fatal error:  Call to undefined function mysqli_init() in /home/demowork/public_html/php/hrhomes/backend/system/database/drivers/mysqli/mysqli_driver.php on line 136
+[07-Apr-2017 04:44:49 America/Chicago] PHP Fatal error:  Call to undefined function mysqli_init() in /home/demowork/public_html/php/hrhomes/backend/system/database/drivers/mysqli/mysqli_driver.php on line 136
+[07-Apr-2017 04:44:49 America/Chicago] PHP Fatal error:  Call to undefined function mysqli_init() in /home/demowork/public_html/php/hrhomes/backend/system/database/drivers/mysqli/mysqli_driver.php on line 136
+[07-Apr-2017 04:44:49 America/Chicago] PHP Fatal error:  Call to undefined function mysqli_init() in /home/demowork/public_html/php/hrhomes/backend/system/database/drivers/mysqli/mysqli_driver.php on line 136
+[07-Apr-2017 04:44:49 America/Chicago] PHP Fatal error:  Call to undefined function mysqli_init() in /home/demowork/public_html/php/hrhomes/backend/system/database/drivers/mysqli/mysqli_driver.php on line 136

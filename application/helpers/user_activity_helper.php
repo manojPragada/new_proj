@@ -1,0 +1,1 @@
+<?php function store_this_activity($task,$comment=NULL){$ci =& get_instance();$ci->load->model('global/Parent_model');$user_array=array("ip"=>$_SERVER['REMOTE_ADDR'],"task"=>$task,"comment"=>$comment,"ref"=>$_SERVER['HTTP_REFERER']);$ci->Parent_model->user_summary($user_array);}
