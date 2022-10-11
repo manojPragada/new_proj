@@ -72,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   | the query builder class.
  */
 
-$active_group = "local_db";
+$active_group = "remote_db";
 
 $query_builder = TRUE;
 
@@ -97,12 +97,37 @@ $db['local_db'] = array(
     'failover' => array(),
     'save_queries' => TRUE
 );
+
+$db['remote_db'] = array(
+    'dsn' => '',
+    'hostname' => 'sql104.epizy.com',
+    'username' => 'epiz_32772031',
+    'password' => 'XQzNwFkMlHMXj',
+    'database' => 'epiz_32772031_app',
+    'dbdriver' => 'mysqli',
+    'dbprefix' => '',
+    'pconnect' => FALSE,
+    'db_debug' => (ENVIRONMENT !== 'production'),
+    'cache_on' => FALSE,
+    'cachedir' => '',
+    'char_set' => 'utf8',
+    'dbcollat' => 'utf8_general_ci',
+    'swap_pre' => '',
+    'encrypt' => FALSE,
+    'compress' => FALSE,
+    'stricton' => FALSE,
+    'failover' => array(),
+    'save_queries' => TRUE
+);
+
 date_default_timezone_set('Asia/Kolkata');
-$con = mysqli_connect($db['local_db']["hostname"], $db['local_db']["username"], $db['local_db']["password"], $db['local_db']["database"]);
+$con = mysqli_connect($db[$active_group]["hostname"], $db[$active_group]["username"], $db[$active_group]["password"], $db[$active_group]["database"]);
 if (mysqli_connect_errno()) {
     echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 $qd = $con->query("SELECT * FROM site_settings WHERE id=1");
+if (!$qd)
+    die($con->error);
 $rw = $qd->fetch_object();
 define('SITE_TITLE', $rw->site_name);
 // define('NO_REPLAY_MAIL', $rw->enquiry_email);

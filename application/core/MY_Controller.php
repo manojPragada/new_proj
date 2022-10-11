@@ -13,12 +13,6 @@ class MY_Controller extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->data = array();
-        /* $config['protocol'] = 'smtp';
-          $config['charset'] = 'utf-8';
-          $config['smtp_host'] = 'smtp.sendgrid.net';
-          $config['smtp_user'] = 'shearcircle';
-          $config['smtp_pass'] = 'DIGITEKitinc12';
-          $config['smtp_port'] = 587; */
         $config['crlf'] = "\r\n";
         $config['newline'] = "\r\n";
         $config['wordwrap'] = TRUE;
@@ -28,15 +22,15 @@ class MY_Controller extends CI_Controller {
 
         $this->data["site_property"] = $this->site_model->get_site_properties();
         $this->data["social_media_link"] = $this->site_model->get_social_media_links();
-		$this->data['services'] = $this->db->get_where("services", ["status"=>1])->result();
-		foreach($this->data['services'] as $item){
-			$item->image = base_url()."uploads/".$item->image;
-		}
+        $this->data['services'] = $this->db->get_where("services", ["status" => 1])->result();
+        foreach ($this->data['services'] as $item) {
+            $item->image = base_url() . "uploads/" . $item->image;
+        }
     }
 
     function admin_view($design = null) {
         $this->load->view("admin/includes/header", $this->data);
-        //$this->load->view("admin/");        
+        //$this->load->view("admin/");
         $this->load->view("admin/includes/footer", $this->data);
     }
 
@@ -105,6 +99,20 @@ class MY_Controller extends CI_Controller {
             echo json_encode($arr);
             die;
         }
+    }
+
+}
+
+class Api_controller extends CI_Controller {
+
+    public $data;
+
+    function __construct() {
+        parent::__construct();
+    }
+
+    function check_user() {
+        
     }
 
 }
