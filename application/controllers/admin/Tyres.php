@@ -1,12 +1,8 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+#/** Developed By peacekeeper **/
 
-class Main_menu extends CI_Controller {
+class Tyres extends CI_Controller {
 
     private $data;
 
@@ -15,9 +11,9 @@ class Main_menu extends CI_Controller {
         if ($this->site_model->check_for_user_logged() == false) {
             redirect("admin/login");
         }
-        $this->data['add_subject'] = "Main Menu";
+        $this->data['add_subject'] = "Truck Tyres Types";
         $this->data['subject'] = plural($this->data['add_subject']);
-        $this->data['primary_table_name'] = "admin_dashboard_main_menu";
+        $this->data['primary_table_name'] = "tyres";
         $this->data['current_page_link'] = base_url() . "admin/" . strtolower(__CLASS__);
 
         $this->data['primary_uri_segment_name'] = $this->data['primary_table_name'];
@@ -46,7 +42,7 @@ class Main_menu extends CI_Controller {
         $this->data['email_fields'] = array('username', 'email');
 
         $this->data['action_buttons'] = array(
-            "delete_action" => true,
+            "delete_action" => false,
             "edit_action" => true,
             "add_action" => true,
             "view_action" => false

@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPClass.php to edit this template
+ */
+
+/**
+ * Description of Register
+ *
+ * @author peacekeeper
+ */
 header("access-control-allow-origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type");
@@ -112,7 +122,130 @@ class Api_controller extends CI_Controller {
     }
 
     function check_user() {
-        
+
+    }
+
+    function check_value_status($value, $title = "") {
+        if (empty($value)) {
+            $arr = [
+                "status" => "valid",
+                "message" => $title . " is Required"
+            ];
+            echo json_encode($arr);
+            die;
+        }
+        return true;
+    }
+
+    function generate_random_string($length = 8, $table, $column) {
+        $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        $pass = array();
+        $alphaLength = strlen($alphabet) - 1;
+        for ($i = 0; $i < $length; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        $gen = implode($pass);
+        $check = $this->my_model->get_data_row($table, [$column => $gen]);
+        if (!empty($check)) {
+            return $this->get_random_string($length, $table, $column);
+        }
+        if ($column == "req_id") {
+            $this->my_model->insert_data("req_ids", ["req_id" => $gen, "created_at" => time()]);
+        }
+        return $gen;
+    }
+
+    function generate_random_numbers($length = 8, $table, $column) {
+        $alphabet = '1234567890';
+        $pass = array();
+        $alphaLength = strlen($alphabet) - 1;
+        for ($i = 0; $i < $length; $i++) {
+            $n = rand(0, $alphaLength);
+            $pass[] = $alphabet[$n];
+        }
+        $gen = implode($pass);
+        $check = $this->my_model->get_data_row($table, [$column => $gen]);
+        if (!empty($check)) {
+            return $this->get_random_string($length, $table, $column);
+        }
+        if ($column == "req_id") {
+            $this->my_model->insert_data("req_ids", ["req_id" => $gen, "created_at" => time()]);
+        }
+        return $gen;
+    }
+
+    function check_owner($access_token, $select = "*") {
+        if (empty($access_token)) {
+            $arr = [
+                "status" => "invalid",
+                "type" => "login_error",
+                "message" => "Invalid Access Token!"
+            ];
+            echo json_encode($arr);
+            die;
+        }
+        $data = $this->my_model->get_data_row("transport_owners", ["access_token" => $access_token], $select);
+        if (empty($data)) {
+            $arr = [
+                "status" => "invalid",
+                "type" => "login_error",
+                "message" => (!empty($data) && $data->status == 0) ? "Account Inactive! Please Contact Admin." : "User does not Exists!"
+            ];
+            echo json_encode($arr);
+            die;
+        }
+        return $data;
+    }
+
+    function check_owner_with_phone_number($phone_number) {
+        return $this->my_model->get_data("transport_owners", ["phone_number" => $phone_number]);
+    }
+
+    private function create_folders($path) {
+        $real_path = realpath(APPPATH . '../uploads/' . $path);
+        if (!file_exists($real_path)) {
+            $oldmask = umask(0);
+            mkdir('uploads/' . $path, 0777, true);
+            umask($oldmask);
+        }
+        return true;
+    }
+
+    function file_upload($var, $path_folder, $allowed_types = "*", $enc = true, $prev_file_name = "") {
+        $this->create_folders($path_folder);
+        if (!empty($_FILES[$var]['name'])) {
+            $real_path = realpath(APPPATH . '../uploads/' . $path_folder);
+            if (!file_exists($real_path)) {
+                $oldmask = umask(0);
+                mkdir('uploads/' . $path_folder, 0777, true);
+                umask($oldmask);
+                return $this->image_upload($var, $path_folder, $enc, $prev_file_name);
+            } else {
+                $config['upload_path'] = $real_path;
+                $config['allowed_types'] = $allowed_types;
+                $config['encrypt_name'] = $enc;
+                if (!empty($file_name)) {
+                    $config['overwrite'] = TRUE;
+                    $config['file_name'] = $file_name;
+                }
+                $this->load->library('upload', $config);
+                if ($this->upload->do_upload($var)) {
+                    $img_data = $this->upload->data();
+                    $path = $img_data['file_name'];
+                    if (!empty($prev_file_name)) {
+                        unlink('uploads/' . $path_folder . '/' . $prev_file_name);
+                    }
+                    return $path;
+                } else {
+                    print_r($this->upload->display_errors());
+                    die;
+                    return "";
+                }
+            }
+        } else {
+            return "";
+        }
     }
 
 }
