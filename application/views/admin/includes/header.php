@@ -12,7 +12,8 @@
         <title><?= SITE_TITLE ?> | Dashboard</title>
 
         <link href="<?= base_url() ?>admin_assets/css/bootstrap.min.css" rel="stylesheet">
-        <link href="<?= base_url() ?>admin_assets/font-awesome/css/font-awesome.css" rel="stylesheet">
+        <!--<link href="<?= base_url() ?>admin_assets/font-awesome/css/font-awesome.css" rel="stylesheet">-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         <!-- Toastr style -->
         <link href="<?= base_url() ?>admin_assets/css/plugins/toastr/toastr.min.css" rel="stylesheet">
@@ -137,12 +138,12 @@
                         ?>
 
                         <?php if ($_SERVER["HTTP_HOST"] == "localhost") { ?>
-                                                                            <!--                            <li class="<?= $this->uri->segment($this->uri->total_segments()) == "main_menu" ? "active" : "" ?>">
-                                                                                                            <a href="<?= base_url() ?>admin/main_menu"><i class="fa fa-comments-o" aria-hidden="true"></i> <span class="nav-label">Main Menu</span></a>
-                                                                                                        </li>
-                                                                                                        <li class="<?= $this->uri->segment($this->uri->total_segments()) == "sub_menu" ? "active" : "" ?>">
-                                                                                                            <a href="<?= base_url() ?>admin/sub_menu"><i class="fa fa-comments-o" aria-hidden="true"></i> <span class="nav-label">Sub Menu</span></a>
-                                                                                                        </li>-->
+                                                                                <!--                            <li class="<?= $this->uri->segment($this->uri->total_segments()) == "main_menu" ? "active" : "" ?>">
+                                                                                                                <a href="<?= base_url() ?>admin/main_menu"><i class="fa fa-comments-o" aria-hidden="true"></i> <span class="nav-label">Main Menu</span></a>
+                                                                                                            </li>
+                                                                                                            <li class="<?= $this->uri->segment($this->uri->total_segments()) == "sub_menu" ? "active" : "" ?>">
+                                                                                                                <a href="<?= base_url() ?>admin/sub_menu"><i class="fa fa-comments-o" aria-hidden="true"></i> <span class="nav-label">Sub Menu</span></a>
+                                                                                                            </li>-->
                         <?php } ?>
                     </ul>
                 </div>

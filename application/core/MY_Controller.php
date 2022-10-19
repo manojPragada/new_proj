@@ -128,7 +128,7 @@ class Api_controller extends CI_Controller {
     function check_value_status($value, $title = "") {
         if (empty($value)) {
             $arr = [
-                "status" => "valid",
+                "status" => "invalid",
                 "message" => $title . " is Required"
             ];
             echo json_encode($arr);
@@ -198,8 +198,81 @@ class Api_controller extends CI_Controller {
         return $data;
     }
 
+    function check_driver($access_token, $select = "*") {
+        if (empty($access_token)) {
+            $arr = [
+                "status" => "invalid",
+                "type" => "login_error",
+                "message" => "Invalid Access Token!"
+            ];
+            echo json_encode($arr);
+            die;
+        }
+        $data = $this->my_model->get_data_row("drivers", ["access_token" => $access_token], $select);
+        if (empty($data)) {
+            $arr = [
+                "status" => "invalid",
+                "type" => "login_error",
+                "message" => (!empty($data) && $data->status == 0) ? "Account Inactive! Please Contact Admin." : "User does not Exists!"
+            ];
+            echo json_encode($arr);
+            die;
+        }
+        return $data;
+    }
+
+    function check_driver_with_id($id, $owner_id, $select = "*") {
+        if (empty($id)) {
+            $arr = [
+                "status" => "invalid",
+                "type" => "",
+                "message" => "Invalid Driver Id!"
+            ];
+            echo json_encode($arr);
+            die;
+        }
+        $data = $this->my_model->get_data_row("drivers", ["id" => $id, "owner_id" => $owner_id], $select);
+        if (empty($data)) {
+            $arr = [
+                "status" => "invalid",
+                "type" => "",
+                "message" => "Driver does not Exists!"
+            ];
+            echo json_encode($arr);
+            die;
+        }
+        return $data;
+    }
+
+    function check_lorry_with_id($id, $owner_id, $select = "*") {
+        if (empty($id)) {
+            $arr = [
+                "status" => "invalid",
+                "type" => "",
+                "message" => "Invalid Lorry Id!"
+            ];
+            echo json_encode($arr);
+            die;
+        }
+        $data = $this->my_model->get_data_row("lorries", ["id" => $id, "owner_id" => $owner_id], $select);
+        if (empty($data)) {
+            $arr = [
+                "status" => "invalid",
+                "type" => "",
+                "message" => "Lorry does not Exists!"
+            ];
+            echo json_encode($arr);
+            die;
+        }
+        return $data;
+    }
+
     function check_owner_with_phone_number($phone_number) {
         return $this->my_model->get_data("transport_owners", ["phone_number" => $phone_number]);
+    }
+
+    function check_driver_with_phone_number($phone_number) {
+        return $this->my_model->get_data("drivers", ["phone_number" => $phone_number]);
     }
 
     private function create_folders($path) {

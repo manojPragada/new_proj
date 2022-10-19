@@ -92,6 +92,7 @@ defined('EXIT__AUTO_MAX') OR define('EXIT__AUTO_MAX', 125); // highest automatic
 //
 // Uploads Folder
 define('FILE_UPLOAD_FOLDER', "./uploads/");
+define('OWNERS_UPLOADS_PROOFS', "owners/proofs/");
 //
 //
 //
@@ -99,3 +100,4 @@ define('FILE_UPLOAD_FOLDER', "./uploads/");
 //
 // Owner Constants
 define("OWNER_ID_PREFIX", "LMA-");
+define("DRIVER_ID_PREFIX", "LMA-");

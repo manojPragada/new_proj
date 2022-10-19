@@ -47,12 +47,13 @@ class Register extends Api_controller {
         $this->form_validation->set_rules("no_of_trucks", "No of Trucks", "trim|required", array('required' => 'Please enter No of Trucks'));
         $this->form_validation->set_rules("is_otp_verified", "Is OTP Verified", "trim|required", array('required' => 'Is OTP Verified ?'));
         $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]|max_length[32]', array('required' => 'Please enter your password', 'min_length' => 'Password should be greater than 6 characters', 'max_length' => 'Password should be less than 32 characters'));
-        $aadhar_front_image = $this->file_upload("aadhar_front_image", "owners/proofs/", "jpg|png|jpeg");
-        $aadhar_back_image = $this->file_upload("aadhar_back_image", "owners/proofs/", "jpg|png|jpeg");
-        $license_front_image = $this->file_upload("license_front_image", "owners/proofs/", "jpg|png|jpeg");
-        $license_back_image = $this->file_upload("license_back_image", "owners/proofs/", "jpg|png|jpeg");
-        $pancard_front_image = $this->file_upload("pancard_front_image", "owners/proofs/", "jpg|png|jpeg");
-        $pancard_back_image = $this->file_upload("pancard_back_image", "owners/proofs/", "jpg|png|jpeg");
+        $user_id = OWNER_ID_PREFIX . $this->generate_random_numbers(12, "transport_owners", "user_id");
+        $aadhar_front_image = $this->file_upload("aadhar_front_image", "owners/proofs/$user_id/", "jpg|png|jpeg");
+        $aadhar_back_image = $this->file_upload("aadhar_back_image", "owners/proofs/$user_id/", "jpg|png|jpeg");
+        $license_front_image = $this->file_upload("license_front_image", "owners/proofs/$user_id/", "jpg|png|jpeg");
+        $license_back_image = $this->file_upload("license_back_image", "owners/proofs/$user_id/", "jpg|png|jpeg");
+        $pancard_front_image = $this->file_upload("pancard_front_image", "owners/proofs/$user_id/", "jpg|png|jpeg");
+        $pancard_back_image = $this->file_upload("pancard_back_image", "owners/proofs/$user_id/", "jpg|png|jpeg");
         $this->check_value_status($aadhar_front_image, "Aadhar front Image");
         $this->check_value_status($aadhar_back_image, "Aadhar back Image");
         $this->check_value_status($license_front_image, "License front Image");
@@ -82,7 +83,6 @@ class Register extends Api_controller {
             $is_otp_verified = $this->input->post("is_otp_verified"); // yes or no
             $salt = $this->generate_random_string(10, "transport_owners", "salt");
             $access_token = $this->generate_random_string(40, "transport_owners", "access_token");
-            $user_id = OWNER_ID_PREFIX . $this->generate_random_numbers(12, "transport_owners", "user_id");
             $inp_arr = array(
                 "access_token" => $access_token,
                 "user_id" => $user_id,

@@ -72,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   | the query builder class.
  */
 
-$active_group = "local_db";
+$active_group = "remote_db";
 
 $query_builder = TRUE;
 
