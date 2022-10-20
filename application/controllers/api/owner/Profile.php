@@ -6,32 +6,41 @@
  */
 
 /**
- * Description of Register
+ * Description of Profile
  *
- * @author peacekeeper
+ * @author saikumar surala
  */
-class Register extends Api_controller {
+class Profile extends Api_controller {
+
+    public $user_data, $user_id;
 
     public function __construct() {
         parent::__construct();
+        $access_token = $this->input->post("access_token");
+        $this->user_data = $this->check_owner($access_token);
+        $this->user_id = $this->user_data->id;
     }
 
     public function index() {
-        $states = $this->my_model->get_data("states", null, "id,name", "name", "asc", true);
-        $types_of_services = $this->my_model->get_data("types_of_services", null, "id,name", "name", "asc", true);
+        $user_data = $this->user_data;
+        $user_data->image = !empty($user_data->image) ? base_url("uploads/") . OWNERS_UPLOADS_PROFILE . $user_data->user_id . "/" . $user_data->image : "";
+        $user_data->aadhar_front_image = !empty($user_data->aadhar_front_image) ? base_url("uploads/") . OWNERS_UPLOADS_PROOFS . $user_data->user_id . "/" . $user_data->aadhar_front_image : "";
+        $user_data->aadhar_back_image = !empty($user_data->aadhar_back_image) ? base_url("uploads/") . OWNERS_UPLOADS_PROOFS . $user_data->user_id . "/" . $user_data->aadhar_back_image : "";
+        $user_data->license_front_image = !empty($user_data->license_front_image) ? base_url("uploads/") . OWNERS_UPLOADS_PROOFS . $user_data->user_id . "/" . $user_data->license_front_image : "";
+        $user_data->license_back_image = !empty($user_data->license_back_image) ? base_url("uploads/") . OWNERS_UPLOADS_PROOFS . $user_data->user_id . "/" . $user_data->license_back_image : "";
+        $user_data->pancard_front_image = !empty($user_data->pancard_front_image) ? base_url("uploads/") . OWNERS_UPLOADS_PROOFS . $user_data->user_id . "/" . $user_data->pancard_front_image : "";
+        $user_data->pancard_back_image = !empty($user_data->pancard_back_image) ? base_url("uploads/") . OWNERS_UPLOADS_PROOFS . $user_data->user_id . "/" . $user_data->pancard_back_image : "";
         $arr = [
             "status" => "valid",
             "type" => "",
-            "data" => [
-                "states" => $states,
-                "types_of_services" => $types_of_services
-            ]
+            "data" => $user_data
         ];
         echo json_encode($arr);
         die;
     }
 
-    public function do_register() {
+    public function update() {
+        $user_data = $this->user_data;
         $this->form_validation->set_rules("first_name", "First Name", "trim|required", array('required' => 'Please enter First Name'));
         $this->form_validation->set_rules("last_name", "Last Name", "trim|required", array('required' => 'Please enter Last Name'));
         $this->form_validation->set_rules("dob", "Date of Birth", "trim|required", array('required' => 'Please enter Date of Birth'));
@@ -45,21 +54,14 @@ class Register extends Api_controller {
         $this->form_validation->set_rules("phone_number", "Phone Number", "trim|required", array('required' => 'Please enter Phone Number'));
         $this->form_validation->set_rules("types_of_services_id", "Types of Service", "trim|required", array('required' => 'Please select Type of Service'));
         $this->form_validation->set_rules("no_of_trucks", "No of Trucks", "trim|required", array('required' => 'Please enter No of Trucks'));
-        $this->form_validation->set_rules("is_otp_verified", "Is OTP Verified", "trim|required", array('required' => 'Is OTP Verified ?'));
-        $this->form_validation->set_rules('password', 'Password', 'trim|required|min_length[6]|max_length[32]', array('required' => 'Please enter your password', 'min_length' => 'Password should be greater than 6 characters', 'max_length' => 'Password should be less than 32 characters'));
-        $user_id = OWNER_ID_PREFIX . $this->generate_random_numbers(12, "transport_owners", "user_id");
-        $aadhar_front_image = $this->file_upload("aadhar_front_image", OWNERS_UPLOADS_PROOFS . "$user_id/", "jpg|png|jpeg");
-        $aadhar_back_image = $this->file_upload("aadhar_back_image", OWNERS_UPLOADS_PROOFS . "$user_id/", "jpg|png|jpeg");
-        $license_front_image = $this->file_upload("license_front_image", OWNERS_UPLOADS_PROOFS . "$user_id/", "jpg|png|jpeg");
-        $license_back_image = $this->file_upload("license_back_image", OWNERS_UPLOADS_PROOFS . "$user_id/", "jpg|png|jpeg");
-        $pancard_front_image = $this->file_upload("pancard_front_image", OWNERS_UPLOADS_PROOFS . "$user_id/", "jpg|png|jpeg");
-        $pancard_back_image = $this->file_upload("pancard_back_image", OWNERS_UPLOADS_PROOFS . "$user_id/", "jpg|png|jpeg");
-        $this->check_value_status($aadhar_front_image, "Aadhar front Image");
-        $this->check_value_status($aadhar_back_image, "Aadhar back Image");
-        $this->check_value_status($license_front_image, "License front Image");
-        $this->check_value_status($license_back_image, "License back Image");
-        $this->check_value_status($pancard_front_image, "Pancard front Image");
-        $this->check_value_status($pancard_back_image, "Pancard back Image");
+        $user_id = $user_data->user_id;
+        $image = $this->file_upload("image", OWNERS_UPLOADS_PROFILE . "$user_id/", "jpg|png|jpeg");
+        $aadhar_front_image = $this->file_upload("aadhar_front_image", OWNERS_UPLOADS_PROOFS . "$user_id/", "jpg|png|jpeg", true, $user_data->aadhar_front_image);
+        $aadhar_back_image = $this->file_upload("aadhar_back_image", OWNERS_UPLOADS_PROOFS . "$user_id/", "jpg|png|jpeg", true, $user_data->aadhar_back_image);
+        $license_front_image = $this->file_upload("license_front_image", OWNERS_UPLOADS_PROOFS . "$user_id/", "jpg|png|jpeg", true, $user_data->license_front_image);
+        $license_back_image = $this->file_upload("license_back_image", OWNERS_UPLOADS_PROOFS . "$user_id/", "jpg|png|jpeg", true, $user_data->license_back_image);
+        $pancard_front_image = $this->file_upload("pancard_front_image", OWNERS_UPLOADS_PROOFS . "$user_id/", "jpg|png|jpeg", true, $user_data->pancard_front_image);
+        $pancard_back_image = $this->file_upload("pancard_back_image", OWNERS_UPLOADS_PROOFS . "$user_id/", "jpg|png|jpeg", true, $user_data->pancard_back_image);
         if ($this->form_validation->run() == FALSE) {
             $message = validation_erros_for_app(validation_errors());
             $arr = ['status' => "invalid",
@@ -77,67 +79,64 @@ class Register extends Api_controller {
             $district_code = $this->input->post("district_code");
             $office_number = $this->input->post("office_number");
             $phone_number = $this->input->post("phone_number");
-            $password = $this->input->post("password");
             $types_of_services_id = $this->input->post("types_of_services_id");
             $no_of_trucks = $this->input->post("no_of_trucks");
-            $is_otp_verified = $this->input->post("is_otp_verified"); // yes or no
-            $salt = $this->generate_random_string(10, "transport_owners", "salt");
-            $access_token = $this->generate_random_string(40, "transport_owners", "access_token");
             $inp_arr = array(
-                "access_token" => $access_token,
-                "user_id" => $user_id,
                 "first_name" => $first_name,
                 "last_name" => $last_name,
                 "dob" => $dob,
                 "aadhar_number" => $aadhar_number,
-                "aadhar_front_image" => $aadhar_front_image,
-                "aadhar_back_image" => $aadhar_back_image,
                 "license_number" => $license_number,
-                "license_front_image" => $license_front_image,
-                "license_back_image" => $license_back_image,
                 "pancard_number" => $pancard_number,
-                "pancard_front_image" => $pancard_front_image,
-                "pancard_back_image" => $pancard_back_image,
                 "experience" => $experience,
                 "state_id" => $state_id,
                 "district_code" => $district_code,
                 "office_number" => $office_number,
                 "phone_number" => $phone_number,
-                "password" => md5($password . $salt),
-                "salt" => $salt,
                 "types_of_services_id" => $types_of_services_id,
                 "no_of_trucks" => $no_of_trucks,
-                "is_otp_verified" => $is_otp_verified,
-                "created_at" => time(),
                 "updated_at" => time()
             );
-            $check = $this->check_owner_with_phone_number($phone_number);
-            if (empty($check)) {
-                $register = $this->my_model->insert_data("transport_owners", $inp_arr);
-                if ($register) {
-                    $owner_data = $this->check_owner($access_token, "id,access_token,user_id,first_name,last_name,phone_number");
-                    $arr = array(
-                        "status" => "valid",
-                        "type" => "",
-                        "message" => "Account Successfully Registered",
-                        "data" => $owner_data
-                    );
-                } else {
-                    $arr = array(
-                        "status" => "invalid",
-                        "type" => "",
-                        "message" => "Something went Wrong! Please try again."
-                    );
-                }
+            if (!empty($image)) {
+                $inp_arr["image"] = $image;
+            }
+            if (!empty($aadhar_front_image)) {
+                $inp_arr["aadhar_front_image"] = $aadhar_front_image;
+            }
+            if (!empty($aadhar_back_image)) {
+                $inp_arr["aadhar_back_image"] = $aadhar_back_image;
+            }
+            if (!empty($license_front_image)) {
+                $inp_arr["license_front_image"] = $license_front_image;
+            }
+            if (!empty($license_back_image)) {
+                $inp_arr["license_back_image"] = $license_back_image;
+            }
+            if (!empty($pancard_front_image)) {
+                $inp_arr["pancard_front_image"] = $pancard_front_image;
+            }
+            if (!empty($pancard_back_image)) {
+                $inp_arr["pancard_back_image"] = $pancard_back_image;
+            }
+            $update = $this->my_model->update_data("transport_owners", ["id" => $this->user_id], $inp_arr);
+            if ($update) {
+                $owner_data = $this->check_owner($user_data->access_token, "id,access_token,user_id,first_name,last_name,phone_number");
+                $arr = array(
+                    "status" => "valid",
+                    "type" => "",
+                    "message" => "Success! Profile Updated.",
+                    "data" => $owner_data
+                );
             } else {
                 $arr = array(
                     "status" => "invalid",
                     "type" => "",
-                    "message" => "Account with this Phone Number Already Exists!"
+                    "message" => "Something went Wrong! Please try again."
                 );
             }
         }
         echo json_encode($arr);
+        die;
     }
 
 }

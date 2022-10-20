@@ -307,7 +307,7 @@ class Api_controller extends CI_Controller {
                     $img_data = $this->upload->data();
                     $path = $img_data['file_name'];
                     if (!empty($prev_file_name)) {
-                        unlink('uploads/' . $path_folder . '/' . $prev_file_name);
+                        unlink('uploads/' . $path_folder . $prev_file_name);
                     }
                     return $path;
                 } else {

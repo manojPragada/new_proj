@@ -93,6 +93,7 @@ defined('EXIT__AUTO_MAX') OR define('EXIT__AUTO_MAX', 125); // highest automatic
 // Uploads Folder
 define('FILE_UPLOAD_FOLDER', "./uploads/");
 define('OWNERS_UPLOADS_PROOFS', "owners/proofs/");
+define('OWNERS_UPLOADS_PROFILE', "owners/profile/");
 //
 //
 //
