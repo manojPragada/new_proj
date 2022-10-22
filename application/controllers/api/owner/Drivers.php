@@ -43,6 +43,7 @@ class Drivers extends Api_controller {
 
     public function add() {
         $this->form_validation->set_rules("name", "Driver Name", "trim|required", array('required' => 'Please enter Name'));
+        $this->form_validation->set_rules("dob", "Date of Birth", "trim|required", array('required' => 'Please enter Date of Birth'));
         $this->form_validation->set_rules("aadhar_number", "Driver Name", "trim|required", array('required' => 'Please enter Aadhar Number'));
         $this->form_validation->set_rules("license_number", "License Number", "trim|required", array('required' => 'Please enter License Number'));
         $this->form_validation->set_rules("pancard_number", "PAN Card Number", "trim|required", array('required' => 'Please enter PAN Card Number'));
@@ -50,6 +51,7 @@ class Drivers extends Api_controller {
         $this->form_validation->set_rules("state_id", "State Id", "trim|required", array('required' => 'Please enter State Id'));
         $this->form_validation->set_rules("district_code", "District Code", "trim|required", array('required' => 'Please enter District Code'));
         $this->form_validation->set_rules("phone_number", "Phone Number", "trim|required", array('required' => 'Please enter Phone Number'));
+        $this->form_validation->set_rules("is_otp_verified", "Is OTP Verified", "trim|required", array('required' => 'Please enter Phone Numbers OTP Verified ?'));
         $this->form_validation->set_rules("password", "Password", "trim|required", array('required' => 'Please enter Password'));
         $user_id = DRIVER_ID_PREFIX . $this->generate_random_numbers(12, "drivers", "user_id");
         $aadhar_front_image = $this->file_upload("aadhar_front_image", "drivers/proofs/$user_id/", "jpg|png|jpeg");
@@ -70,6 +72,8 @@ class Drivers extends Api_controller {
                 "type" => "", 'message' => $message];
         } else {
             $name = $this->input->post("name");
+            $dob = $this->input->post("dob");
+            $dob = date("Y-m-d", strtotime($dob));
             $aadhar_number = $this->input->post("aadhar_number");
             $license_number = $this->input->post("license_number");
             $pancard_number = $this->input->post("pancard_number");
@@ -77,6 +81,7 @@ class Drivers extends Api_controller {
             $state_id = $this->input->post("state_id");
             $district_code = $this->input->post("district_code");
             $phone_number = $this->input->post("phone_number");
+            $is_otp_verified = $this->input->post("is_otp_verified");
             $password = $this->input->post("password");
             $salt = $this->generate_random_string(10, "drivers", "salt");
             $access_token = $this->generate_random_string(40, "drivers", "access_token");
@@ -85,6 +90,7 @@ class Drivers extends Api_controller {
                 "access_token" => $access_token,
                 "user_id" => $user_id,
                 "name" => $name,
+                "dob" => $dob,
                 "aadhar_number" => $aadhar_number,
                 "aadhar_front_image" => $aadhar_front_image,
                 "aadhar_back_image" => $aadhar_back_image,
@@ -98,6 +104,7 @@ class Drivers extends Api_controller {
                 "state_id" => $state_id,
                 "district_code" => $district_code,
                 "phone_number" => $phone_number,
+                "is_otp_verified" => $is_otp_verified,
                 "password" => md5($password . $salt),
                 "salt" => $salt,
                 "created_at" => time(),

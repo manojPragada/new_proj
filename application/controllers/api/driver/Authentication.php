@@ -63,4 +63,24 @@ class Authentication extends Api_controller {
         echo json_encode($arr);
     }
 
+    public function auto_login() {
+        $access_token = $this->input->post("access_token");
+        $user_data = $this->check_driver($access_token, "id,access_token,user_id,name,phone_number");
+        if (!empty($user_data)) {
+            $arr = [
+                "status" => "valid",
+                "type" => "",
+                "message" => "Login Success!.",
+                "data" => $user_data
+            ];
+        } else {
+            $arr = [
+                "status" => "invalid",
+                "type" => "login_error",
+                "message" => "User does not Exists!"
+            ];
+        }
+        echo json_encode($arr);
+    }
+
 }
