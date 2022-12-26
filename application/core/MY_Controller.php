@@ -113,6 +113,8 @@ class MY_Controller extends CI_Controller {
 
 }
 
+header('Content-Type: application/javascript');
+
 class Api_controller extends CI_Controller {
 
     public $data;
@@ -221,6 +223,29 @@ class Api_controller extends CI_Controller {
         return $data;
     }
 
+    function check_customer($access_token, $select = "*") {
+        if (empty($access_token)) {
+            $arr = [
+                "status" => "invalid",
+                "type" => "login_error",
+                "message" => "Invalid Access Token!"
+            ];
+            echo json_encode($arr);
+            die;
+        }
+        $data = $this->my_model->get_data_row("customers", ["access_token" => $access_token], $select);
+        if (empty($data)) {
+            $arr = [
+                "status" => "invalid",
+                "type" => "login_error",
+                "message" => (!empty($data) && $data->status == 0) ? "Account Inactive! Please Contact Admin." : "User does not Exists!"
+            ];
+            echo json_encode($arr);
+            die;
+        }
+        return $data;
+    }
+
     function check_driver_with_id($id, $owner_id, $select = "*") {
         if (empty($id)) {
             $arr = [
@@ -275,6 +300,10 @@ class Api_controller extends CI_Controller {
         return $this->my_model->get_data("drivers", ["phone_number" => $phone_number]);
     }
 
+    function check_customer_with_phone_number($phone_number, $select) {
+        return $this->my_model->get_data_row("customers", ["phone_number" => $phone_number], $select);
+    }
+
     private function create_folders($path) {
         $real_path = realpath(APPPATH . '../uploads/' . $path);
         if (!file_exists($real_path)) {
@@ -319,6 +348,11 @@ class Api_controller extends CI_Controller {
         } else {
             return "";
         }
+    }
+
+    function response($arr) {
+        echo json_encode($arr, JSON_PRETTY_PRINT);
+        die;
     }
 
 }
