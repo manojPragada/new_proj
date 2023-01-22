@@ -113,8 +113,6 @@ class MY_Controller extends CI_Controller {
 
 }
 
-header('Content-Type: application/javascript');
-
 class Api_controller extends CI_Controller {
 
     public $data;

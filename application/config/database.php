@@ -100,10 +100,10 @@ $db['local_db'] = array(
 
 $db['remote_db'] = array(
     'dsn' => '',
-    'hostname' => 'sql104.epizy.com',
-    'username' => 'epiz_32772031',
-    'password' => 'XQzNwFkMlHMXj',
-    'database' => 'epiz_32772031_app',
+    'hostname' => 'localhost',
+    'username' => 'lorryapp_user',
+    'password' => 'GqUd}9NTXcDx',
+    'database' => 'lorryapp_db',
     'dbdriver' => 'mysqli',
     'dbprefix' => '',
     'pconnect' => FALSE,
